@@ -4,11 +4,14 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development node --env-file=.env src/index.js",
-    "start": "cross-env NODE_ENV=production node src/index.js",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate deploy",
-    "db:init": "prisma migrate dev --name init && node --env-file=.env src/seed.js"
+  "dev": "cross-env NODE_ENV=development node --env-file=.env src/index.js",
+  "start": "cross-env NODE_ENV=production node src/index.js",
+  "prisma:generate": "prisma generate",
+  "prisma:migrate": "prisma migrate deploy",
+  "db:init": "prisma migrate dev --name init && node --env-file=.env src/seed.js",
+  "postinstall": "prisma generate"
+
+
   },
   "dependencies": {
     "@prisma/client": "^6.15.0",
