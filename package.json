@@ -10,6 +10,7 @@
   "prisma:migrate": "prisma migrate deploy",
   "db:init": "prisma migrate dev --name init && node --env-file=.env src/seed.js",
   "postinstall": "prisma generate"
+  
 
 
   },
@@ -24,11 +25,12 @@
     "luxon": "^3.5.0",
     "morgan": "^1.10.0",
     "nodemailer": "^7.0.6",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "prisma": "^6.15.0"
   },
   "devDependencies": {
     "cross-env": "^10.0.0",
-    "dotenv-cli": "^10.0.0",
-    "prisma": "^6.15.0"
+    "dotenv-cli": "^10.0.0"
+    
   }
 }
