@@ -1,6 +1,6 @@
-// 1. Generator
-generator client {
-  provider = "prisma-client-js"
+//generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "windows", "debian-openssl-3.0.x"]
 }
 
 // 2. Datasource (SQLite)
