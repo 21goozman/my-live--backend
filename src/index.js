@@ -23,6 +23,10 @@ app.use(cors({
   origin: origins.length ? origins : true,
   methods: ["GET", "POST", "OPTIONS"]
 }));
+app.get("/", (_req, res) => {
+  res.send("🚀 Campus Nails API is running!");
+});
+
 
 app.use("/health", (_req, res) => res.json({ ok: true }));
 
