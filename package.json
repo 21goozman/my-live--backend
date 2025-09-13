@@ -4,15 +4,12 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-  "dev": "cross-env NODE_ENV=development node --env-file=.env src/index.js",
-  "start": "cross-env NODE_ENV=production node src/index.js",
-  "prisma:generate": "prisma generate",
-  "prisma:migrate": "prisma migrate deploy",
-  "db:init": "prisma migrate dev --name init && node --env-file=.env src/seed.js",
-  "postinstall": "prisma generate"
-  
-
-
+    "dev": "cross-env NODE_ENV=development node --env-file=.env src/index.js",
+    "start": "cross-env NODE_ENV=production node src/index.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy",
+    "db:init": "prisma migrate dev --name init && node --env-file=.env src/seed.js",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^6.15.0",
@@ -23,14 +20,14 @@
     "express-rate-limit": "^7.4.0",
     "helmet": "^7.1.0",
     "luxon": "^3.5.0",
+    "method-override": "^3.0.0",
     "morgan": "^1.10.0",
     "nodemailer": "^7.0.6",
-    "zod": "^3.23.8",
-    "prisma": "^6.15.0"
+    "prisma": "^6.15.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "cross-env": "^10.0.0",
     "dotenv-cli": "^10.0.0"
-    
   }
 }
