@@ -8,7 +8,7 @@ import { sendSMS } from "../lib/sms.js";
 export const bookingsRouter = Router();
 
 // Allowed status values for SQLite (since enums are not supported)
-const ALLOWED_STATUSES = ["CONFIRMED", "CANCELED"];
+const ALLOWED_STATUSES = ["CONFIRMED", "CANCELED", "COMPLETED"];
 
 // -------------------- CREATE BOOKING --------------------
 bookingsRouter.post("/", async (req, res, next) => {
@@ -112,5 +112,79 @@ bookingsRouter.patch("/:id/status", async (req, res, next) => {
     });
 
     res.json({ id: updated.id, status: updated.status });
+  } catch (e) { next(e); }
+});
+// -------------------- SIMPLE HTML DASHBOARD --------------------
+bookingsRouter.get("/dashboard", async (_req, res, next) => {
+  try {
+    const items = await prisma.booking.findMany({
+      orderBy: { startUTC: "asc" },
+      include: { service: true }
+    });
+
+    let html = `
+      <html>
+      <head>
+        <title>📋 Campus Nails Bookings Dashboard</title>
+        <style>
+          body { font-family: Arial, sans-serif; padding: 20px; }
+          table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+          th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+          th { background: #f4f4f4; }
+          button { padding: 6px 10px; margin: 2px; cursor: pointer; }
+          .complete { background: #4CAF50; color: white; border: none; }
+          .delete { background: #f44336; color: white; border: none; }
+        </style>
+      </head>
+      <body>
+        <h1>📋 Campus Nails Bookings</h1>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Service</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+    `;
+
+    for (const b of items) {
+      html += `
+        <tr>
+          <td>${b.name}</td>
+          <td>${b.phone}</td>
+          <td>${b.service.name}</td>
+          <td>${new Date(b.startUTC).toLocaleString("en-KE")}</td>
+          <td>${b.status}</td>
+          <td>
+            <form method="POST" action="/api/bookings/${b.id}/status?_method=PATCH" style="display:inline;">
+              <input type="hidden" name="status" value="COMPLETED" />
+              <button class="complete">✅ Complete</button>
+            </form>
+            <form method="POST" action="/api/bookings/${b.id}?_method=DELETE" style="display:inline;">
+              <button class="delete">🗑 Delete</button>
+            </form>
+          </td>
+        </tr>
+      `;
+    }
+
+    html += `
+        </table>
+      </body>
+      </html>
+    `;
+
+    res.send(html);
+  } catch (e) { next(e); }
+});
+// -------------------- DELETE BOOKING --------------------
+bookingsRouter.delete("/:id", async (req, res, next) => {
+  try {
+    await prisma.booking.delete({
+      where: { id: req.params.id }
+    });
+    res.json({ success: true });
   } catch (e) { next(e); }
 });
