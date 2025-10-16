@@ -49,6 +49,7 @@ app.use((err, _req, res, _next) => {
 });
 
 const PORT = Number(process.env.PORT || 8080);
-app.listen(PORT, () => {
-  console.log(`✅ Campus Nails API running on http://localhost:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`✅ Campus Nails API running on port ${PORT}`);
+  console.log(`🌍 Live at: https://my-live-backend-1.onrender.com`);
 });
